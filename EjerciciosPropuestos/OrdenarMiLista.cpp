@@ -15,6 +15,7 @@ class MiLista
 
   public:
      MiLista();
+     ~MiLista();
      void Destruir();
      void Aniadir_primero (int x);
      void Eliminar_primero();
@@ -38,12 +39,18 @@ int main ()
      lista.Ordenar();
      
      cout << "La lista es: " << lista;
-     
-     lista.Destruir();
+
 }
 
 ///////////////////////////////////////////////////////////////
 MiLista::MiLista() : l(0) {}
+
+MiLista::~MiLista(){
+     while ( !Vacia() )
+          Eliminar_primero ();
+    
+    l = 0;
+}
 
 void MiLista::Destruir()
 {
