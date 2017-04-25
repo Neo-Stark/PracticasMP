@@ -6,7 +6,7 @@
          "name": "C++ Launch",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}\\practica4\\a.exe",
+         "program": "${workspaceRoot}\\OrdenarMiLista.exe",
          "args": [],
          "stopAtEntry": false,
          "cwd": "${workspaceRoot}",

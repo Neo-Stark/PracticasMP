@@ -76,3 +76,7 @@ int main(int argc, char* argv[]){
    	
    delete [] v_din;
 }
+
+#metodo ordenar milista 
+#metodo milista dos listas ordenadas combinar ambas
+#metodo ordenar dos listas encadenando los punteros en lista 3
