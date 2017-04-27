@@ -6,7 +6,7 @@
          "name": "C++ Launch",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}\\OrdenarMiLista.exe",
+         "program": "${workspaceRoot}\\EjerciciosPropuestos\\OrdenarMiLista.exe",
          "args": [],
          "stopAtEntry": false,
          "cwd": "${workspaceRoot}",

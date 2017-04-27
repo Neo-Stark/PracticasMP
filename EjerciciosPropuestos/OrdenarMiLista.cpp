@@ -22,23 +22,35 @@ class MiLista
      void Aniadir_final (int x);
      void Eliminar_final();
      void Ordenar();
+     void Encadenar(const MiLista&);
+     void Mezclar(const MiLista& lista1, const MiLista& lista2);
 
      friend istream &operator>>( istream &is, MiLista &lista );
-     friend ostream &operator<<( ostream &os, MiLista  lista );
+     friend ostream &operator<<( ostream &os,const MiLista  &lista );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 int main ()
 {
      int x;
-     MiLista lista;
+     MiLista lista, lista2, lista3;
      
      cout << "Introducir elementos lista1 (x1, ..., xi, ... 0): ";
      cin >> lista;
+     cout << "Introducir elementos lista2 (x1, ..., xi, ... 0): ";
+     cin >> lista2;
+
+     lista3.Mezclar(lista, lista2);
+     cout << "\n Orden total: " << lista3;
 
      lista.Ordenar();
-     
-     cout << "La lista es: " << lista;
+     cout << "\nLa lista1 ordenada es: " << lista;
+
+     lista2.Ordenar();
+     cout << "\nLa lista2 ordenada es: " << lista2;
+
+     lista.Encadenar(lista2);
+     cout << "\nLas listas encadenadas son: " << lista;
 
 }
 
@@ -174,7 +186,7 @@ istream &operator>>(istream &is, MiLista &lista)
      return is;
 }
 
-ostream &operator<<(ostream &os, MiLista lista)
+ostream &operator<<(ostream &os,const MiLista &lista)
 {
      Celda *p=lista.l;
      while (p != 0)
@@ -184,6 +196,22 @@ ostream &operator<<(ostream &os, MiLista lista)
      }
 
       return os;
+}
+
+void MiLista::Encadenar(const MiLista& lista2)
+{
+    Celda* p=lista2.l;
+    while(p!=0){
+        Aniadir_final(p->info);
+         p = p->sig;
+    }
+}
+
+void MiLista::Mezclar(const MiLista& lista1, const MiLista& lista2)
+{
+    Encadenar(lista1);
+    Encadenar(lista2);
+    Ordenar();   
 }
  
  
