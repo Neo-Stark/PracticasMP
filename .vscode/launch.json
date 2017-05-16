@@ -6,7 +6,7 @@
          "name": "C++ Launch",
          "type": "cppdbg",
          "request": "launch",
-         "program": "C:/Users/fjose/Google Drive/Universidad/MP/Practicas/Practica4/02_Calificaciones_ArrayDinamicoStruct_ordenado.exe",
+         "program": "C:/Users/fjose/Google Drive/Universidad/MP/Practicas/Ex_Prac1.exe",
          "args": [],
          "stopAtEntry": false,
          "cwd": "${workspaceRoot}",
