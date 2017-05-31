@@ -15,7 +15,7 @@ class Binario
    ~Binario();
    Binario(const Binario &copia);
    Binario &operator=(const Binario& otro_b);
-   Binario &operator+(const Binario& otro_b);
+   Binario operator+(const Binario& otro_b);
 }
 
 
@@ -99,7 +99,7 @@ Binario& Binario::operator=(const Binario &otro_b)
    return *this;
 }
 
-Binario &Binario::operator+(const Binario& otro_b)
+Binario Binario::operator+(const Binario& otro_b)
 {
    int suma = to_int() + otro_b.to_int();
 
@@ -110,4 +110,45 @@ int Binario::to_int()
 {
    int numero =0;
    int l = strlen(ptr);
+}
+
+Binario& Binario::operator+=(const Binario &b)
+{
+    *this = *this + b;
+
+    return *this;
+}
+
+Binario Binario::operator++()
+{
+    *this = *this + 1;
+
+    return *this;
+}
+
+
+int main()
+{
+    const int MAX = 10;
+    int util;
+    Binario b[MAX];
+    cin >> util;
+
+    for (int i=0; i<util; i++)
+        cin >> b[i];
+
+    Ordena(b,util);
+
+    for (int i=0; i<util; i++)
+        cout << b[i] << endl;   
+}
+
+void Ordena(Binario *b, int util)
+{
+    for (int i=0; i<util; i++)
+    {
+        int pos_men = b[i];
+        for (int j=i+1; j<util; j++)
+            if (b[j] < b[i])
+    }
 }

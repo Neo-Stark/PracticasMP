@@ -4,6 +4,7 @@
     "iosfwd": "cpp",
     "ostream": "cpp",
     "string": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "*.tcc": "cpp"
 }
 }

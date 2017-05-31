@@ -6,7 +6,7 @@
          "name": "C++ Launch",
          "type": "cppdbg",
          "request": "launch",
-         "program": "C:/Users/fjose/Google Drive/Universidad/MP/Practicas/Ex_Prac1.exe",
+         "program": "C:/Users/fjose/Google Drive/Universidad/MP/Practicas/Practica_F/a.exe",
          "args": [],
          "stopAtEntry": false,
          "cwd": "${workspaceRoot}",
