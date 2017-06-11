@@ -1,92 +1,19 @@
+/*************************************************************************************
+// Autor: Francisco José González García
+// Fichero: Skyline.cpp
+
+// Contiene la definición de los métodos y funciones necesarias para usar la clase 
+// "SkyLine".
+*************************************************************************************/
+
 using namespace std;
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include "skyline.h"
 
-const int DIM = 100;
-int MezclarUnico(double *v1, int util_v1, double *v2, int util_v2, double *vs);
-
-class SkyLine
-{
-	double *abscisas;
-	double *alturas;
-	int n;
-	void copiar_desde(const SkyLine &copia);
-	void limpiar();
-	bool es_valido(double abscisa, double altura, int i);
-	void simplificar();
-
-  public:
-	SkyLine() : abscisas(0), alturas(0), n(0){};
-	~SkyLine();
-	SkyLine(double x1, double x2, double y1);
-	SkyLine(const SkyLine &copia);
-	double Altura(double x);
-	SkyLine &operator=(const SkyLine &copia);
-	SkyLine operator+(const SkyLine &sky2) const;
-	friend ostream &operator<<(ostream &flujo, const SkyLine &sky);
-	friend istream &operator>>(istream &flujo, SkyLine &sky);
-	friend int cargar(ifstream &inData, SkyLine &sky);
-	friend int salvar(ofstream &outData, SkyLine &sky);
-};
-
-////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-// int main()
-// {
-// 	ifstream inData("prueba.txt");
-// 	ofstream outData("salida.txt");
-
-// 	SkyLine edificio(1, 2, 1);
-// 	double altura = edificio.Altura(1.5);
-// 	cout << altura << endl;
-// 	// cin >> edificio;
-
-// 	cargar(inData, edificio);
-// 	salvar(outData, edificio);
-
-// 	SkyLine edificio2(2, 4, 4);
-// 	altura = edificio2.Altura(3);
-// 	cout << altura << endl;
-
-// 	SkyLine edificio3(edificio2);
-// 	altura = edificio3.Altura(2);
-// 	cout << altura << endl;
-
-// 	SkyLine edificio4;
-// 	edificio4 = edificio + edificio2;
-// 	altura = edificio4.Altura(1);
-// 	cout << altura;
-// 	cout << edificio;
-
-// 	inData.close();
-// }
-
-int main()
-{
-	double x1, x2, h;
-	ofstream Outdata(argv[1]);
-
-	cin >> x1 >> x2 >> h;
-	SkyLine edificios(x1, x2, h);
-
-	for (int i = 0; i < capacidad && x1 != x2; i++)
-	{
-		cin >> x1 >> x2;
-		if (x1 != x2)
-		{
-			cin >> h;
-			SkyLine aux(x1, x2, h);
-			edificios = edificios + aux;
-		}
-	}
-
-	Outdata << edificios;
-	Outdata.close();
-}
-//////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-
+// Mezcla en un vector de salida dos vectores-C de datos de tipo double
+// Pre: los vectores de entrada están ordenados.
 int MezclarUnico(double *v1, int util_v1, double *v2, int util_v2, double *vs)
 {
 	int i = 0, j = 0, util_vs = 0;
@@ -123,6 +50,7 @@ int MezclarUnico(double *v1, int util_v1, double *v2, int util_v2, double *vs)
 	return util_vs;
 }
 
+// Comprueba si los datos pasados como argumentos son válidos.
 bool SkyLine::es_valido(double abscisa, double altura, int i)
 {
 	bool valido = true;
@@ -137,12 +65,16 @@ bool SkyLine::es_valido(double abscisa, double altura, int i)
 	}
 	return valido;
 }
+
 void SkyLine::limpiar()
 {
 	delete[] abscisas;
 	delete[] alturas;
 	n = 0;
 }
+
+// Método privado que copia el contenido de un skyline
+// pasada como parámetro en el skyline objeto.
 void SkyLine::copiar_desde(const SkyLine &copia)
 {
 	n = copia.n;
@@ -156,10 +88,14 @@ void SkyLine::copiar_desde(const SkyLine &copia)
 	}
 }
 
+// Destructor.
 SkyLine::~SkyLine()
 {
 	limpiar();
 }
+
+// Constructor que crea un edificio a partir de dos valores
+// para las abscisas y un tercero para la altura.
 SkyLine::SkyLine(double x1, double x2, double y1)
 	: n(2)
 {
@@ -177,11 +113,13 @@ SkyLine::SkyLine(double x1, double x2, double y1)
 		SkyLine();
 }
 
+// Constructor de copia.
 SkyLine::SkyLine(const SkyLine &copia)
 {
 	copiar_desde(copia);
 }
 
+// Sobrecarga de operador de asignación.
 SkyLine &SkyLine::operator=(const SkyLine &copia)
 {
 	if (this != &copia)
@@ -192,7 +130,8 @@ SkyLine &SkyLine::operator=(const SkyLine &copia)
 	return *this;
 }
 
-double SkyLine::Altura(double x)
+// Devuelve la altura de un skyline dado cualquier punto del mismo.
+double SkyLine::Altura(double x) const
 {
 	double altura = 0;
 	if (n != 0 && (x >= abscisas[0] && x < abscisas[n - 1]))
@@ -204,6 +143,10 @@ double SkyLine::Altura(double x)
 
 	return altura;
 }
+
+// Sobrecarga del operador suma.
+// Devuelve un skyline con las abscisas como la mezcla de los dos
+// skylines de entrada y las alturas como la máxima entre ambos.
 SkyLine SkyLine::operator+(const SkyLine &sky2) const
 {
 	SkyLine suma;
@@ -222,9 +165,12 @@ SkyLine SkyLine::operator+(const SkyLine &sky2) const
 		else
 			suma.alturas[i] = altura2;
 	}
+	suma.simplificar();
 	return suma;
 }
 
+// Sobrecarga del operador de inserción.
+// Obtiene en un flujo de salida el contenido del skyline en formato texto.
 ostream &operator<<(ostream &flujo, const SkyLine &salida)
 {
 	flujo << "\nNumero de abscisas: " << salida.n << endl;
@@ -234,6 +180,8 @@ ostream &operator<<(ostream &flujo, const SkyLine &salida)
 			  << salida.alturas[i] << " )" << endl;
 }
 
+// Sobrecarga del operador de extracción.
+// Obtiene desde un flujo de entrada el contenido de un skyline.
 istream &operator>>(istream &flujo, SkyLine &entrada)
 {
 	double abscisa, altura;
@@ -265,30 +213,55 @@ istream &operator>>(istream &flujo, SkyLine &entrada)
 	return flujo;
 }
 
-int cargar(ifstream &inData, SkyLine &sky)
+// Desde un fichero de entrada carga los datos
+// en un objeto del tipo SkyLine.
+// Devuelve si la operación ha tenido éxito.
+int cargar(char *fichero, SkyLine &sky)
 {
+	ifstream inData;
+	inData.open(fichero);
+	if (!inData)
+	{
+		cout << "Error: no se pudo abrir " << fichero << endl;
+		return (1);
+	}
 	char cadena[14];
 	inData >> cadena;
 	if (!strcmp(cadena, "MP-SKYLINE-1.0"))
 		inData >> sky;
 
+	inData.close();
 	return 0;
 }
 
-int salvar(ofstream &outData, SkyLine &sky)
+// Guarda en un fichero de salida los datos de una
+// skyline según el formato establecido.
+// Devuelve si ha tenido éxito.
+int salvar(char *fichero, SkyLine &sky)
 {
-	outData << "MP-SKYLINE-1.0" << endl;
-	outData << sky;
+	ofstream Outdata;
+	Outdata.open(fichero);
+	if (!Outdata)
+	{
+		cout << "Error: no se pudo abrir " << fichero << endl;
+		return (1);
+	}
+	Outdata << "MP-SKYLINE-1.0" << endl;
+	Outdata << sky;
+
+	Outdata.close();
 
 	return 0;
 }
 
+// Simplifica el skyline eliminando los puntos donde
+// las alturas se repiten, dejando solo uno de ellos.
 void SkyLine::simplificar()
 {
 	int quitados = 0, cont = 0;
 
 	for (int i = 0; i < n; i++)
-		if (i == 0 || altura[i] != altura[i - 1])
+		if (i == 0 || alturas[i] != alturas[i - 1])
 		{
 			abscisas[cont] = abscisas[i];
 			alturas[cont] = alturas[i];

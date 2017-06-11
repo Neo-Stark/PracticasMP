@@ -5,6 +5,9 @@
     "ostream": "cpp",
     "string": "cpp",
     "cmath": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "cstdlib": "cpp",
+    "fstream": "cpp",
+    "iomanip": "cpp"
 }
 }

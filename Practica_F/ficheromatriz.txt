@@ -1,0 +1,5 @@
+MP-MATRIZDISPERSA-1.0
+Numero de filas: 1
+Numero de columnas: 1
+Numero de valores: 1
+Valor 1: 5 ( 1, 1 )
