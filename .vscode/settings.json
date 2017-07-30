@@ -1,5 +1,6 @@
 {
 "files.associations": {
+    "*.mak": "makefile",
     "iostream": "cpp",
     "iosfwd": "cpp",
     "ostream": "cpp",
@@ -8,6 +9,7 @@
     "*.tcc": "cpp",
     "cstdlib": "cpp",
     "fstream": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "limits": "cpp"
 }
 }
